@@ -103,7 +103,7 @@ fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewMod
             ) {
                 Text(
                     "enviar",
-                    color = itemColor,
+                    color = background,
                     modifier = Modifier.background(borderColor, RoundedCornerShape(24.dp)),
                     fontSize = 18.sp
                 )
@@ -117,7 +117,7 @@ fun MovieItem(movie: MovieEntity, onItemClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(65.dp)
             .background(itemColor, RoundedCornerShape(16.dp))
             .clickable(onClick = onItemClick)
             .border(

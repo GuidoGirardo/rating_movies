@@ -21,4 +21,7 @@ interface MovieDao {
 
     @Query("UPDATE movies SET rating = :rating WHERE id = :movieId")
     fun changeMovieRating(movieId: Int, rating: Int)
+
+    @Query("DELETE FROM movies WHERE id = :movieId")
+    fun deleteMovie(movieId: Int)
 }

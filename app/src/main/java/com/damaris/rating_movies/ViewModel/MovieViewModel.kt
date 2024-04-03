@@ -71,4 +71,12 @@ class MovieViewModel : ViewModel() {
         }
     }
 
+    fun deleteMovie(movieId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            movieDao.deleteMovie(movieId)
+            val updatedMovies = movieDao.getAllMovies()
+            _movies.postValue(updatedMovies)
+        }
+    }
+
 }
