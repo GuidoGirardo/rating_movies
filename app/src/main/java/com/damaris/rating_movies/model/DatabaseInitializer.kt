@@ -13,7 +13,7 @@ object DatabaseInitializer {
                     context.applicationContext,
                     MovieDatabase::class.java,
                     "movie_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
             }
         }
         return INSTANCE!!

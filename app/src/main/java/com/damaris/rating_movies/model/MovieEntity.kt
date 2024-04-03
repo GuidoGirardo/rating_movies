@@ -8,5 +8,6 @@ data class MovieEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val title: String,
-    val rating: Int
+    val rating: Int,
+    val coverImageResourceId: Int
 )

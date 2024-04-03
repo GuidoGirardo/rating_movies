@@ -1,5 +1,6 @@
 package com.damaris.rating_movies.view.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,20 +42,12 @@ import com.damaris.rating_movies.ViewModel.MovieViewModel
 import com.damaris.rating_movies.model.MovieEntity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.damaris.rating_movies.R
 import com.damaris.rating_movies.view.navigation.AppScreens
 import com.damaris.rating_movies.view.ui.theme.background
 import com.damaris.rating_movies.view.ui.theme.borderColor
 import com.damaris.rating_movies.view.ui.theme.itemColor
 import com.damaris.rating_movies.view.ui.theme.textColor
-
-/* @Preview
-@Composable
-fun MoviesMainPreview() {
-    val fakeNavController = rememberNavController()
-    val fakeViewModel = MovieViewModel()
-    fakeViewModel.getMovies()
-    MoviesMain(navController = fakeNavController, viewModel = fakeViewModel)
-} */
 
 @Composable
 fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewModel()) {
@@ -66,7 +61,6 @@ fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewMod
             .background(background)
             .padding(vertical = 16.dp)
     ) {
-
         // primer elemento de la columna
         val movies by viewModel.movies.observeAsState(initial = emptyList())
         LazyColumn(
@@ -80,10 +74,7 @@ fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewMod
                 }
             }
         }
-
-        // espacio para separar los elementos
         Spacer(modifier = Modifier.height(16.dp))
-
         // segundo elemento de la columna (fijado al bottom)
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -110,7 +101,12 @@ fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewMod
                     borderColor
                 )
             ) {
-                Text("enviar", color = itemColor, modifier = Modifier.background(borderColor, RoundedCornerShape(24.dp)), fontSize = 18.sp)
+                Text(
+                    "enviar",
+                    color = itemColor,
+                    modifier = Modifier.background(borderColor, RoundedCornerShape(24.dp)),
+                    fontSize = 18.sp
+                )
             }
         }
     }
@@ -130,6 +126,11 @@ fun MovieItem(movie: MovieEntity, onItemClick: () -> Unit) {
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
+        Image(
+            painter = painterResource(id = movie.coverImageResourceId),
+            contentDescription = null,
+            modifier = Modifier.size(80.dp)
+        )
         Text(
             text = movie.title,
             style = MaterialTheme.typography.bodyMedium,

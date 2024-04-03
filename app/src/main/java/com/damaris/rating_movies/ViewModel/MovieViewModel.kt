@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.damaris.rating_movies.R
 import com.damaris.rating_movies.model.DatabaseInitializer
 import com.damaris.rating_movies.model.MovieDao
 import com.damaris.rating_movies.model.MovieEntity
@@ -30,7 +31,7 @@ class MovieViewModel : ViewModel() {
     fun insertMovie(movieName: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val newMovie = MovieEntity(title = movieName, rating = 0)
+                val newMovie = MovieEntity(title = movieName, rating = 0, coverImageResourceId = R.drawable.kotlin)
                 movieDao.insertMovie(newMovie)
                 val updatedMovies = movieDao.getAllMovies()
                 _movies.postValue(updatedMovies)
@@ -44,6 +45,14 @@ class MovieViewModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 val movies = movieDao.getAllMovies()
                 _movies.postValue(movies)
+            }
+        }
+    }
+
+    fun deleteAllMovies() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                movieDao.deleteAllMovies()
             }
         }
     }
