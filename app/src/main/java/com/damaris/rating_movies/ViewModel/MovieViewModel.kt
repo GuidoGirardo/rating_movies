@@ -48,4 +48,18 @@ class MovieViewModel : ViewModel() {
         }
     }
 
+    suspend fun getMovieById(movieId: Int): MovieEntity? {
+        var movie: MovieEntity? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            movie = movieDao.getMovieById(movieId)
+        }.join()
+        return movie
+    }
+
+    fun changeMovieRating(movieId: Int, rating: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            movieDao.changeMovieRating(movieId, rating)
+        }
+    }
+
 }
