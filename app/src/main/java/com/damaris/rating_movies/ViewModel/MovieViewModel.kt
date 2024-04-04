@@ -63,6 +63,12 @@ class MovieViewModel : ViewModel() {
         }
     }
 
+    fun deleteAllMovies(){
+        viewModelScope.launch(Dispatchers.IO) {
+            movieDao.deleteAllMovies()
+        }
+    }
+
     fun deleteMovie(movieId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             movieDao.deleteMovie(movieId)
@@ -76,6 +82,12 @@ class MovieViewModel : ViewModel() {
             movieDao.changeImage(imagen, movieId)
             val updatedMovies = movieDao.getAllMovies()
             _movies.postValue(updatedMovies)
+        }
+    }
+
+    fun actualizarNumberPortada(movieId: Int, currentNumber: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            movieDao.actualizarNumberPortada(movieId, currentNumber)
         }
     }
 

@@ -37,7 +37,7 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
 
     var title by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf(0) }
-    var portada by remember { mutableStateOf(R.drawable.kotlin) }
+    var portada by remember { mutableStateOf(R.drawable.imagen_0) }
 
     var currentNumber by remember { mutableStateOf(0) }
 
@@ -48,8 +48,7 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
             title = movie.title
             rating = movie.rating
             portada = movie.coverImageResourceId
-            val lastChar = portada.toString().takeLast(1)
-            currentNumber = lastChar.toInt()
+            currentNumber = movie.numberPortada
         } else {
             title = "Película no encontrada"
         }
@@ -92,11 +91,11 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
             modifier = Modifier
                 .size(80.dp)
                 .clickable {
-                    currentNumber = (currentNumber + 1) % 3
+                    currentNumber = (currentNumber + 1) % 11
                     viewModel.changeImage(getImageResourceId(currentNumber), movieId)
+                    viewModel.actualizarNumberPortada(movieId, currentNumber)
                 }
         )
-
 
         Button(
             onClick = {

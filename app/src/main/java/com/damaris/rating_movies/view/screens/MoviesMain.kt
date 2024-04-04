@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,17 +34,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.damaris.rating_movies.ViewModel.MovieViewModel
 import com.damaris.rating_movies.model.MovieEntity
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
-import com.damaris.rating_movies.R
 import com.damaris.rating_movies.view.navigation.AppScreens
 import com.damaris.rating_movies.view.ui.theme.background
 import com.damaris.rating_movies.view.ui.theme.borderColor
@@ -54,6 +53,7 @@ fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewMod
 
     var movieName by remember { mutableStateOf("") }
     viewModel.getMovies()
+    // viewModel.deleteAllMovies()
 
     Column(
         modifier = Modifier
@@ -117,7 +117,7 @@ fun MovieItem(movie: MovieEntity, onItemClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(65.dp)
+            .height(85.dp)
             .background(itemColor, RoundedCornerShape(16.dp))
             .clickable(onClick = onItemClick)
             .border(
@@ -126,17 +126,33 @@ fun MovieItem(movie: MovieEntity, onItemClick: () -> Unit) {
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
-        Image(
-            painter = painterResource(id = movie.coverImageResourceId),
-            contentDescription = null,
-            modifier = Modifier.size(80.dp)
-        )
-        Text(
-            text = movie.title,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(8.dp),
-            color = textColor
-        )
+        Row(
+            modifier = Modifier.fillMaxHeight() // Para que la Row ocupe todo el alto del Box
+        ) {
+            Image(
+                painter = painterResource(id = movie.coverImageResourceId),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxHeight() // Para que la imagen ocupe todo el alto del Row
+                    .aspectRatio(1f) // Mantener la relación de aspecto de la imagen
+                    .clip(RoundedCornerShape(16.dp))
+                    .padding(start = 0.dp) // Eliminar cualquier relleno en el borde izquierdo
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Box(
+                modifier = Modifier
+                    .weight(1f) // El texto ocupa el espacio restante en el Row
+                    .align(Alignment.CenterVertically) // Para centrar el texto verticalmente
+            ) {
+                Text(
+                    text = movie.title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(8.dp),
+                    color = textColor,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }

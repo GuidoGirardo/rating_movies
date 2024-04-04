@@ -9,5 +9,6 @@ data class MovieEntity(
     val id: Long = 0L,
     val title: String,
     val rating: Int,
-    val coverImageResourceId: Int
+    val coverImageResourceId: Int,
+    val numberPortada: Int = 0
 )

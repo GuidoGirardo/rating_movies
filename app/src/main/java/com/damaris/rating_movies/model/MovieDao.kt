@@ -24,4 +24,10 @@ interface MovieDao {
 
     @Query("UPDATE movies SET coverImageResourceId = :imagen WHERE id = :movieId")
     fun changeImage(imagen: Int, movieId: Int)
+
+    @Query("DELETE FROM movies")
+    fun deleteAllMovies()
+
+    @Query("UPDATE movies SET numberPortada = :currentNumber WHERE id = :movieId")
+    fun actualizarNumberPortada(movieId: Int, currentNumber: Int)
 }
