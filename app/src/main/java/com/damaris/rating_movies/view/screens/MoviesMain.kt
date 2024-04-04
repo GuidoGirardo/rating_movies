@@ -95,6 +95,7 @@ fun MoviesMain(navController: NavController, viewModel: MovieViewModel = viewMod
             Button(
                 onClick = {
                     viewModel.insertMovie(movieName)
+                    movieName = ""
                 },
                 modifier = Modifier.background(borderColor, RoundedCornerShape(16.dp)),
                 colors = ButtonDefaults.buttonColors(
@@ -133,10 +134,9 @@ fun MovieItem(movie: MovieEntity, onItemClick: () -> Unit) {
                 painter = painterResource(id = movie.coverImageResourceId),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxHeight() // Para que la imagen ocupe todo el alto del Row
-                    .aspectRatio(1f) // Mantener la relación de aspecto de la imagen
+                    .fillMaxHeight() // Mantener la relación de aspecto de la imagen
+                    .padding(start = 15.dp) // Eliminar cualquier relleno en el borde izquierdo
                     .clip(RoundedCornerShape(16.dp))
-                    .padding(start = 0.dp) // Eliminar cualquier relleno en el borde izquierdo
             )
             Spacer(modifier = Modifier.width(16.dp))
             Box(
