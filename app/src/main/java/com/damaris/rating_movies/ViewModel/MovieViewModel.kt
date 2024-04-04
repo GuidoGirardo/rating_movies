@@ -31,7 +31,7 @@ class MovieViewModel : ViewModel() {
     fun insertMovie(movieName: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val newMovie = MovieEntity(title = movieName, rating = 0, coverImageResourceId = R.drawable.kotlin)
+                val newMovie = MovieEntity(title = movieName, rating = 0, coverImageResourceId = R.drawable.imagen_0)
                 movieDao.insertMovie(newMovie)
                 val updatedMovies = movieDao.getAllMovies()
                 _movies.postValue(updatedMovies)
@@ -45,14 +45,6 @@ class MovieViewModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 val movies = movieDao.getAllMovies()
                 _movies.postValue(movies)
-            }
-        }
-    }
-
-    fun deleteAllMovies() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                movieDao.deleteAllMovies()
             }
         }
     }
@@ -74,6 +66,14 @@ class MovieViewModel : ViewModel() {
     fun deleteMovie(movieId: Int){
         viewModelScope.launch(Dispatchers.IO) {
             movieDao.deleteMovie(movieId)
+            val updatedMovies = movieDao.getAllMovies()
+            _movies.postValue(updatedMovies)
+        }
+    }
+
+    fun changeImage(imagen: Int, movieId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            movieDao.changeImage(imagen, movieId)
             val updatedMovies = movieDao.getAllMovies()
             _movies.postValue(updatedMovies)
         }

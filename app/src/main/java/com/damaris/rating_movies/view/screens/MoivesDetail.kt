@@ -1,7 +1,9 @@
 package com.damaris.rating_movies.view.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -36,7 +37,9 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
 
     var title by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf(0) }
-    var portada by remember { mutableStateOf(R.drawable.images) }
+    var portada by remember { mutableStateOf(R.drawable.kotlin) }
+
+    var currentNumber by remember { mutableStateOf(0) }
 
     LaunchedEffect(key1 = movieId) {
         val movie = viewModel.getMovieById(movieId)
@@ -45,6 +48,8 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
             title = movie.title
             rating = movie.rating
             portada = movie.coverImageResourceId
+            val lastChar = portada.toString().takeLast(1)
+            currentNumber = lastChar.toInt()
         } else {
             title = "Película no encontrada"
         }
@@ -82,10 +87,16 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
         )
 
         Image(
-            painter = painterResource(id = portada),
+            painter = painterResource(id = getImageResourceId(currentNumber)),
             contentDescription = null,
-            modifier = Modifier.size(80.dp)
+            modifier = Modifier
+                .size(80.dp)
+                .clickable {
+                    currentNumber = (currentNumber + 1) % 3
+                    viewModel.changeImage(getImageResourceId(currentNumber), movieId)
+                }
         )
+
 
         Button(
             onClick = {
@@ -96,7 +107,7 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
             colors = ButtonDefaults.buttonColors(
                 borderColor
             )
-        ){
+        ) {
             Text(
                 "delete",
                 color = background,
@@ -104,5 +115,10 @@ fun MoviesDetail(navController: NavController, viewModel: MovieViewModel, movieI
                 fontSize = 18.sp
             )
         }
+
     }
+}
+
+private fun getImageResourceId(number: Int): Int {
+    return R.drawable::class.java.getField("imagen_$number").getInt(null)
 }

@@ -13,9 +13,6 @@ interface MovieDao {
     @Query("SELECT * FROM movies")
     fun getAllMovies(): List<MovieEntity>
 
-    @Query("DELETE FROM movies")
-    fun deleteAllMovies()
-
     @Insert
     fun insertMovie(movie: MovieEntity)
 
@@ -24,4 +21,7 @@ interface MovieDao {
 
     @Query("DELETE FROM movies WHERE id = :movieId")
     fun deleteMovie(movieId: Int)
+
+    @Query("UPDATE movies SET coverImageResourceId = :imagen WHERE id = :movieId")
+    fun changeImage(imagen: Int, movieId: Int)
 }
